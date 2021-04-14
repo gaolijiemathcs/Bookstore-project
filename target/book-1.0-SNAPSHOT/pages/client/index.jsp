@@ -8,6 +8,20 @@
 
 	<%-- 静态包含 base标签、css样式、jQuery文件 --%>
 	<%@ include file="/pages/common/head.jsp"%>
+	<Script type="text/javascript">
+		$(function() {
+
+			//给加入购物车绑定单机事件
+			$("button.addToCart").click(function() {
+				/**
+				 * 在事件响应的function函数中 有一个this对象 这个this对象 是当前响应时间的dom对象
+				 * @type {*|jQuery}
+				 */
+				var bookId = $(this).attr("bookId");
+				location.href = "http://localhost:8080/book/cartServlet?action=addItem&id=" + bookId;
+			});
+		});
+	</Script>
 
 
 </head>
@@ -17,10 +31,19 @@
 <%--	<img class="logo_img" alt="" src="static/img/logo.gif" >--%>
 	<span class="wel_word">网上书城</span>
 	<div>
-		<a href="pages/user/login.jsp">登录</a> |
-		<a href="pages/user/regist.jsp">注册</a> &nbsp;&nbsp;
-		<a href="pages/cart/cart.jsp">购物车</a>
-		<a href="pages/manager/manager.jsp">后台管理</a>
+		<%--如果用户还没有登录 显示【登录和注册的菜单】--%>
+		<c:if test="${empty sessionScope.user}">
+			<a href="pages/user/login.jsp">登录</a> |
+			<a href="pages/user/regist.jsp">注册</a> &nbsp;&nbsp;
+		</c:if>
+		<%--如果已经登录 则显示登录成功之后的信息--%>
+		<c:if test="${not empty sessionScope.user}">
+			<span>欢迎<span class="um_span">${sessionScope.user.username}</span>访问书店</span>
+			<a href="pages/order/order.jsp">我的订单</a>
+			<a href="userServlet?action=logout">注销</a>
+		</c:if>
+			<a href="pages/cart/cart.jsp">购物车</a>
+			<a href="pages/manager/manager.jsp">后台管理</a>
 	</div>
 </div>
 
@@ -68,7 +91,7 @@
 					<span class="sp2">${book.stock}</span>
 				</div>
 				<div class="book_add">
-					<button>加入购物车</button>
+					<button bookId="${book.id}" class="addToCart">加入购物车</button>
 				</div>
 			</div>
 		</div>
