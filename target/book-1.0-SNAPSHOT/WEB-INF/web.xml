@@ -40,6 +40,14 @@
         <url-pattern>/cartServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>com.gao.web.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/orderServlet</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>KaptchaServlet</servlet-name>
